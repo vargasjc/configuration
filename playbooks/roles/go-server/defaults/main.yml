@@ -51,9 +51,9 @@ GO_SERVER_H2DB_BACKUP_LOCATION: "{{ GO_SERVER_HOME }}/{{ GO_SERVER_H2DB_BACKUP_P
 # For use in backup/restore of a GoCD configuration.
 GO_SERVER_BACKUP_FILENAME: "go-server-latest-backup.tgz"
 GO_SERVER_TEMP_RESTORE_DIRECTORY: "/tmp/go-server-backup"
-GO_SERVER_BACKUP_S3_BUCKET: "edx-test-gocd-backup"
+GO_SERVER_BACKUP_S3_BUCKET: "edx-tools-gocd-backup"
 GO_SERVER_BACKUP_S3_OBJECT: "{{ GO_SERVER_BACKUP_FILENAME }}"
-GO_SERVER_BACKUP_SNITCH_URL: "https://nosnch.in/40b8a19fa4"
+GO_SERVER_BACKUP_SNITCH_URL: "https://nosnch.in/4444444444"
 GO_SERVER_BACKUP_APT_PKGS: "jq"
 GO_SERVER_BACKUP_PIP_PKGS: "awscli"
 GO_SERVER_BACKUP_API_URL: "http://localhost:8153/go/api/backups"

@@ -10,11 +10,11 @@ snitch_url="{{ GO_SERVER_BACKUP_SNITCH_URL }}"
 
 # Trigger the backup and capture the backup path.
 backup_path=\
-`curl -sS "$gocd_backup_api_call" \
+$(curl -sS "$gocd_backup_api_call" \
     -u "$gocd_username:$gocd_password" \
     -H 'Accept: application/vnd.go.cd.v1+json' \
     -X POST | \
-jq .path | tr -d '"'`
+jq .path | tr -d '"')
 
 case $backup_path in
 null)
@@ -27,10 +27,10 @@ null)
 esac
 
 # Make backup into a tarball.
-tar zcvf "$gocd_backup_location" -C `dirname $backup_path` `basename $backup_path`
+tar zcvf "$gocd_backup_location" -C "$(dirname "$backup_path")" "$(basename "$backup_path")"
 
 # Transfer tarball to S3.
-aws_output=`aws s3 cp "$gocd_backup_location" "s3://$s3_backup_bucket" 2>&1`
+aws_output=$(aws s3 cp "$gocd_backup_location" "s3://$s3_backup_bucket" 2>&1)
 case $aws_output in
 *failed*)
   echo "Backup transfer failed: $aws_output"
