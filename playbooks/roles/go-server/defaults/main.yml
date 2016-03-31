@@ -31,6 +31,10 @@ GO_SERVER_APT_SOURCE: "deb http://dl.bintray.com/gocd/gocd-deb/ /"
 GO_SERVER_APT_KEY_URL: "https://bintray.com/user/downloadSubjectPublicKey?username=gocd"
 GO_SERVER_APT_NAME: "go-server"
 
+# Python settings
+GO_SERVER_PYTHON_PIP_APT_NAME: "python-pip"
+GO_SERVER_PIP_PKGS: "boto"
+
 # gocd-oauth-login
 GO_SERVER_OAUTH_LOGIN_VERSION: "1.2"
 GO_SERVER_OAUTH_LOGIN_MD5: "31ad9ad1fe08452f73c56a44b035ee91"
@@ -44,8 +48,17 @@ GO_SERVER_H2DB_LOCATION: "{{ GO_SERVER_HOME }}/{{ GO_SERVER_H2DB_PATH }}/{{ GO_S
 GO_SERVER_H2DB_BACKUP_PATH: "artifacts/db_backup/"
 GO_SERVER_H2DB_BACKUP_LOCATION: "{{ GO_SERVER_HOME }}/{{ GO_SERVER_H2DB_BACKUP_PATH }}/{{ GO_SERVER_H2DB_NAME }}"
 
-# For use in restoring a GoCD configuration.
-GOCD_TEMP_RESTORE_DIRECTORY: "/tmp/go-server-backup"
+# For use in backup/restore of a GoCD configuration.
+GO_SERVER_BACKUP_FILENAME: "go-server-latest-backup.tgz"
+GO_SERVER_TEMP_RESTORE_DIRECTORY: "/tmp/go-server-backup"
+GO_SERVER_BACKUP_S3_BUCKET: "edx-test-gocd-backup"
+GO_SERVER_BACKUP_S3_OBJECT: "{{ GO_SERVER_BACKUP_FILENAME }}"
+GO_SERVER_BACKUP_SNITCH_URL: "https://nosnch.in/40b8a19fa4"
+GO_SERVER_BACKUP_APT_PKGS: "jq"
+GO_SERVER_BACKUP_PIP_PKGS: "awscli"
+GO_SERVER_BACKUP_API_URL: "http://localhost:8153/go/api/backups"
+GO_SERVER_BACKUP_TMP_LOCATION: "/tmp/{{ GO_SERVER_BACKUP_FILENAME }}"
+GO_SERVER_BACKUP_CRON_SCRIPT_LOCATION: "/root/gocd_backup.sh"
 
 # password file setup
 GO_SERVER_PASSWORD_FILE_NAME: "password.txt"
@@ -53,3 +66,10 @@ GO_SERVER_ADMIN_USERS: ["admin"]
 
 # key for go-agents to autoregister with the go-server
 GO_SERVER_AUTO_REGISTER_KEY: "dev-only-override-this-key"
+
+# REMOVE ME!!!! Temporary AWS S3 credentials sent to go-server machine.
+GO_SERVER_AWS_ACCESS_KEY: "AAAAAAAAAAAAAAAAAAAA"
+GO_SERVER_AWS_SECRET_KEY: "++++++++++++++++++++++++++++++++++++++++"
+GO_SERVER_USERNAME: "username"
+GO_SERVER_PASSWORD: "password"
+# REMOVE ME!!!! Temporary AWS S3 credentials sent to go-server machine.

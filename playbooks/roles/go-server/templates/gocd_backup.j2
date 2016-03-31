@@ -1,0 +1,47 @@
+#!/bin/bash
+
+# Variables.
+gocd_backup_api_call="{{ GO_SERVER_BACKUP_API_URL }}"
+gocd_username="{{ GO_SERVER_USERNAME }}"
+gocd_password="{{ GO_SERVER_PASSWORD }}"
+gocd_backup_location="{{ GO_SERVER_BACKUP_TMP_LOCATION }}"
+s3_backup_bucket="{{ GO_SERVER_BACKUP_S3_BUCKET }}"
+snitch_url="{{ GO_SERVER_BACKUP_SNITCH_URL }}"
+
+# Trigger the backup and capture the backup path.
+backup_path=\
+`curl -sS "$gocd_backup_api_call" \
+    -u "$gocd_username:$gocd_password" \
+    -H 'Accept: application/vnd.go.cd.v1+json' \
+    -X POST | \
+jq .path | tr -d '"'`
+
+case $backup_path in
+null)
+  echo "GoCD backup failed."
+  exit
+  ;;
+*)
+  echo "GoCD backup succeeded to: $backup_path"
+  ;;
+esac
+
+# Make backup into a tarball.
+tar zcvf "$gocd_backup_location" -C `dirname $backup_path` `basename $backup_path`
+
+# Transfer tarball to S3.
+aws_output=`aws s3 cp "$gocd_backup_location" "s3://$s3_backup_bucket" 2>&1`
+case $aws_output in
+*failed*)
+  echo "Backup transfer failed: $aws_output"
+  exit
+  ;;
+*)
+  echo "Backup transfer to S3 bucket $s3_backup_bucket succeeded."
+  # Report to Dead Man's Snitch.
+  curl $snitch_url
+  ;;
+esac
+
+# Remove the tarball.
+rm -f "$gocd_backup_location"

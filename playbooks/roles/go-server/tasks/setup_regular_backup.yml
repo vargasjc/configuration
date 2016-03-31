@@ -1,0 +1,64 @@
+#
+# edX Configuration
+#
+# github:     https://github.com/edx/configuration
+# wiki:       https://github.com/edx/configuration/wiki
+# code style: https://github.com/edx/configuration/wiki/Ansible-Coding-Conventions
+# license:    https://github.com/edx/configuration/blob/master/LICENSE.TXT
+#
+#
+#
+# Task to setup a regular go-server backup via cron
+#
+# Overview:
+#
+# Uses cron to generate a regular go-server backup and send it to AWS S3.
+# A successful backup and transfer is then reported to DeadMan'sSnitch.
+#
+# Example play:
+#
+# - name: Configure instance(s)
+#   hosts: go-server
+#   sudo: True
+#   vars_files:
+#     - "{{ secure_dir }}/admin/sandbox.yml"
+#   gather_facts: True
+#   roles:
+#     - common
+#
+
+- name: install required pkgs
+  apt:
+    name: "{{ GO_SERVER_BACKUP_APT_PKGS }}"
+    update_cache: yes
+
+- name: install required Python modules
+  pip:
+    name: "{{ GO_SERVER_BACKUP_PIP_PKGS }}"
+
+# TEMPORARY!!!!!!
+- name: make AWS credentials dir - temporary step!!!
+  file:
+    path: /root/.aws
+    state: directory
+    mode: 0755
+
+- name: make AWS credentials file - temporary step!!!
+  template:
+    src: credentials.j2
+    dest: /root/.aws/credentials
+    mode: 0600
+# TEMPORARY!!!!!!
+
+- name: create backup shell script
+  template:
+    src: gocd_backup.j2
+    dest: "{{ GO_SERVER_BACKUP_CRON_SCRIPT_LOCATION }}"
+    mode: 0770
+
+- name: create cron entry
+  cron:
+    name: "gocd backup"
+    minute: 0
+    hour: 2
+    job: "{{ GO_SERVER_BACKUP_CRON_SCRIPT_LOCATION }}"
