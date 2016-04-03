@@ -30,10 +30,7 @@
 #
 
 - name: Install Elasticsearch repo key 
-  apt_key:
-    id: "{{ elasticsearch_apt_key }}"
-    keyserver: "{{ elasticsearch_apt_keyserver }}"
-    state: present
+  apt_key: url="http://packages.elasticsearch.org/GPG-KEY-elasticsearch" state=present
   tags:
     - install
     - install:base
