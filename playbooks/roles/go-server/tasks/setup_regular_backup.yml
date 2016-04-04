@@ -59,7 +59,9 @@
   template:
     src: gocd_backup.j2
     dest: "{{ GO_SERVER_BACKUP_CRON_SCRIPT_LOCATION }}"
-    mode: 0770
+    mode: 0700
+    owner: root
+    group: root
 
 - name: create cron entry
   cron:
