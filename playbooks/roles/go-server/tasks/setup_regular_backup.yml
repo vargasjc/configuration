@@ -29,12 +29,17 @@
 
 - name: install required pkgs
   apt:
-    name: "{{ GO_SERVER_BACKUP_APT_PKGS }}"
-    update_cache: yes
+    pkg: "{{ item }}"
+    state: present
+    update_cache: true
+    cache_valid_time: 3600
+  with_items: GO_SERVER_BACKUP_APT_PKGS
 
 - name: install required Python modules
   pip:
-    name: "{{ GO_SERVER_BACKUP_PIP_PKGS }}"
+    name: "{{ item }}"
+    state: present
+  with_items: GO_SERVER_BACKUP_PIP_PKGS
 
 # TEMPORARY!!!!!!
 - name: make AWS credentials dir - temporary step!!!

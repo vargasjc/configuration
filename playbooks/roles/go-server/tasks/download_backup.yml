@@ -31,14 +31,19 @@
     name: "{{ GO_SERVER_SERVICE_NAME }}"
     state: stopped
 
-- name: install python-pip using apt-get
+- name: install system packages needed for downloading backup
   apt:
-    name: "{{ GO_SERVER_PYTHON_PIP_APT_NAME }}"
-    update_cache: yes
+    pkg: "{{ item }}"
+    state: present
+    update_cache: true
+    cache_valid_time: 3600
+  with_items: GO_SERVER_APT_PKGS
 
-- name: install required Python modules
+- name: install required python packages
   pip:
-    name: "{{ GO_SERVER_PIP_PKGS }}"
+    name: "{{ item }}"
+    state: present
+  with_items: GO_SERVER_PIP_PKGS
 
 - name: create the temp directory
   file:

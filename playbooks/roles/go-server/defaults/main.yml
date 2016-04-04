@@ -32,8 +32,8 @@ GO_SERVER_APT_KEY_URL: "https://bintray.com/user/downloadSubjectPublicKey?userna
 GO_SERVER_APT_NAME: "go-server"
 
 # Python settings
-GO_SERVER_PYTHON_PIP_APT_NAME: "python-pip"
-GO_SERVER_PIP_PKGS: "boto"
+GO_SERVER_APT_PKGS: ["python-pip"]
+GO_SERVER_PIP_PKGS: ["boto"]
 
 # gocd-oauth-login
 GO_SERVER_OAUTH_LOGIN_VERSION: "1.2"
@@ -54,8 +54,8 @@ GO_SERVER_TEMP_RESTORE_DIRECTORY: "/tmp/go-server-backup"
 GO_SERVER_BACKUP_S3_BUCKET: "edx-tools-gocd-backup"
 GO_SERVER_BACKUP_S3_OBJECT: "{{ GO_SERVER_BACKUP_FILENAME }}"
 GO_SERVER_BACKUP_SNITCH_URL: "https://nosnch.in/4444444444"
-GO_SERVER_BACKUP_APT_PKGS: "jq"
-GO_SERVER_BACKUP_PIP_PKGS: "awscli"
+GO_SERVER_BACKUP_APT_PKGS: ["jq"]
+GO_SERVER_BACKUP_PIP_PKGS: ["awscli"]
 GO_SERVER_BACKUP_API_URL: "http://localhost:8153/go/api/backups"
 GO_SERVER_BACKUP_TMP_LOCATION: "/tmp/{{ GO_SERVER_BACKUP_FILENAME }}"
 GO_SERVER_BACKUP_CRON_SCRIPT_LOCATION: "/root/gocd_backup.sh"
