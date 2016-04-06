@@ -15,7 +15,7 @@ GO_SERVER_USER: "go"
 GO_SERVER_GROUP: "{{ GO_SERVER_USER }}"
 GO_SERVER_VERSION: "16.1.0-2855"
 GO_SERVER_HOME: "/var/lib/go-server"
-GO_SERVER_CONF_HOME: "/etc/go/"
+GO_SERVER_CONF_HOME: "/etc/go"
 
 # Java version settings
 GO_SERVER_ORACLEJDK_VERSION: "7u80"
@@ -30,16 +30,19 @@ GO_SERVER_JAVA_HOME: "{{ GO_SERVER_ORACLEJDK_LINK }}"
 GO_SERVER_APT_SOURCE: "deb http://dl.bintray.com/gocd/gocd-deb/ /"
 GO_SERVER_APT_KEY_URL: "https://bintray.com/user/downloadSubjectPublicKey?username=gocd"
 GO_SERVER_APT_NAME: "go-server"
-
-# Python settings
-GO_SERVER_APT_PKGS: ["python-pip"]
-GO_SERVER_PIP_PKGS: ["boto"]
+GO_SERVER_APT_PKGS: ["apache2-utils"]
 
 # gocd-oauth-login
 GO_SERVER_OAUTH_LOGIN_VERSION: "1.2"
 GO_SERVER_OAUTH_LOGIN_MD5: "31ad9ad1fe08452f73c56a44b035ee91"
 GO_SERVER_OAUTH_LOGIN_JAR_URL: "https://github.com/gocd-contrib/gocd-oauth-login/releases/download/v{{ GO_SERVER_OAUTH_LOGIN_VERSION }}/github-oauth-login-{{ GO_SERVER_OAUTH_LOGIN_VERSION }}.jar"
 GO_SERVER_OAUTH_LOGIN_JAR_DESTINATION: "{{ GO_SERVER_HOME }}/plugins/external/"
+
+# go-server credentials
+GO_SERVER_ADMIN_USERNAME: ""
+GO_SERVER_ADMIN_PASSWORD: ""
+GO_SERVER_BACKUP_USERNAME: ""
+GO_SERVER_BACKUP_PASSWORD: ""
 
 # H2 db settings
 GO_SERVER_H2DB_PATH: "db/h2db"
@@ -51,11 +54,11 @@ GO_SERVER_H2DB_BACKUP_LOCATION: "{{ GO_SERVER_HOME }}/{{ GO_SERVER_H2DB_BACKUP_P
 # For use in backup/restore of a GoCD configuration.
 GO_SERVER_BACKUP_FILENAME: "go-server-latest-backup.tgz"
 GO_SERVER_TEMP_RESTORE_DIRECTORY: "/tmp/go-server-backup"
-GO_SERVER_BACKUP_S3_BUCKET: "edx-tools-gocd-backup"
+GO_SERVER_BACKUP_S3_BUCKET: "edx-test-gocd-backup"
 GO_SERVER_BACKUP_S3_OBJECT: "{{ GO_SERVER_BACKUP_FILENAME }}"
 GO_SERVER_BACKUP_SNITCH_URL: "https://nosnch.in/4444444444"
-GO_SERVER_BACKUP_APT_PKGS: ["jq"]
-GO_SERVER_BACKUP_PIP_PKGS: ["awscli"]
+GO_SERVER_BACKUP_APT_PKGS: ["python-pip", "jq"]
+GO_SERVER_BACKUP_PIP_PKGS: ["boto", "awscli"]
 GO_SERVER_BACKUP_API_URL: "http://localhost:8153/go/api/backups"
 GO_SERVER_BACKUP_TMP_LOCATION: "/tmp/{{ GO_SERVER_BACKUP_FILENAME }}"
 GO_SERVER_BACKUP_CRON_SCRIPT_LOCATION: "/root/gocd_backup.sh"
@@ -70,6 +73,4 @@ GO_SERVER_AUTO_REGISTER_KEY: "dev-only-override-this-key"
 # REMOVE ME!!!! Temporary AWS S3 credentials sent to go-server machine.
 GO_SERVER_AWS_ACCESS_KEY: "AAAAAAAAAAAAAAAAAAAA"
 GO_SERVER_AWS_SECRET_KEY: "++++++++++++++++++++++++++++++++++++++++"
-GO_SERVER_USERNAME: "username"
-GO_SERVER_PASSWORD: "password"
 # REMOVE ME!!!! Temporary AWS S3 credentials sent to go-server machine.

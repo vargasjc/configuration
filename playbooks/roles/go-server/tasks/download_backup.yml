@@ -37,13 +37,13 @@
     state: present
     update_cache: true
     cache_valid_time: 3600
-  with_items: GO_SERVER_APT_PKGS
+  with_items: GO_SERVER_BACKUP_APT_PKGS
 
 - name: install required python packages
   pip:
     name: "{{ item }}"
     state: present
-  with_items: GO_SERVER_PIP_PKGS
+  with_items: GO_SERVER_BACKUP_PIP_PKGS
 
 - name: create the temp directory
   file:
@@ -96,8 +96,3 @@
   file:
     path: "{{ GO_SERVER_TEMP_RESTORE_DIRECTORY }}"
     state: absent
-
-- name: restart go-server
-  service:
-    name: "{{ GO_SERVER_SERVICE_NAME }}"
-    state: restarted
