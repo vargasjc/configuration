@@ -13,6 +13,10 @@
 
 set -xe
 
+if [[ -z "${EDXSS_IPHOST}" ]]; then
+  EDXSS_IPHOST="127.0.0.1,"
+fi
+
 if [[ -z "${ANSIBLE_REPO}" ]]; then
   ANSIBLE_REPO="https://github.com/edx/ansible.git"
 fi
@@ -22,7 +26,7 @@ if [[ -z "${ANSIBLE_VERSION}" ]]; then
 fi
 
 if [[ -z "${CONFIGURATION_REPO}" ]]; then
-  CONFIGURATION_REPO="https://github.com/edx/configuration.git"
+  CONFIGURATION_REPO="https://github.com/vargasjc/configuration.git"
 fi
 
 if [[ -z "${CONFIGURATION_VERSION}" ]]; then
@@ -130,7 +134,7 @@ git checkout ${CONFIGURATION_VERSION}
 make requirements
 
 cd "${CONFIGURATION_DIR}"/playbooks/edx-east
-"${PYTHON_BIN}"/ansible-playbook edx_ansible.yml -i '127.0.0.1,' -c local -e "configuration_version=${CONFIGURATION_VERSION}"
+"${PYTHON_BIN}"/ansible-playbook edx_ansible.yml -i '${EDXSS_IPHOST}' -c local -e "configuration_version=${CONFIGURATION_VERSION}"
 
 # cleanup
 rm -rf "${ANSIBLE_DIR}"
